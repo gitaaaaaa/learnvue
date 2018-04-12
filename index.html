@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>vue - no - ClI</title>
+  <!-- 开发环境版本，包含了用帮助的命令行警告 -->
+  <script src="js/2.5.16/vue.js"></script>
+  <style>
+    body {
+      margin: 0;
+    }
+
+    header {
+      border-bottom: 1px solid #ccc;
+    }
+
+    ul.menu {
+      border-bottom: 1px solid #ccc;
+    }
+
+    .main a.content .notes {
+      background-color: #eee;
+    }
+    .keng {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1> 学习 vue</h1>
+</header>
+<ul class="menu">
+  <li>
+    <h3><a href="#jc">基础</a></h3>
+  </li>
+</ul>
+<!-- 绑定DOM -->
+<div class="main">
+  <a name="jc"></a>
+  <div class="content">
+      <h1>基础</h1>
+      <div class="notes">
+        <p>{{}}</p>
+        <p>v-bind 指令</p>
+        <p>v-if 条件</p>
+        <p class="keng">💀渲染DOM 不能被a标签嵌套</p>
+      </div>
+      <div class="code">
+        <div id="app">
+          <h1>hello: {{ message }}</h1>
+          <h2>name: {{name}}</h2>
+          <h2>sex: {{sex}}</h2>
+          <h3>{{isBoyFriend()}}</h3>
+        </div>
+        <div id="app2">
+        <span v-bind:title="message">
+              鼠标悬停几秒钟查看此处动态绑定的提示信息！
+        </span>
+          <span title="悬停显示的吗？">
+          lll
+        </span>
+          <a v-bind:href="org">跳转到vue官方网站</a>
+        </div>
+        <div id="app3">
+          <p v-if="seen">现在你看到我了</p>
+        </div>
+      </div>
+  </div>
+
+
+  <a class="content" name="">
+    <div class="notes">
+      <p>{{}}</p>
+      <p>v-bind 指令</p>
+      <p>v-if 条件</p>
+    </div>
+  </a>
+  <a class="content" name="">
+    213
+  </a>
+  <a class="content" name="">
+    213
+  </a>
+  <a class="content" name="">
+    213
+  </a>
+</div>
+</body>
+<script>
+  /* 绑定dom元素 通过data or methods*/
+  var app = new Vue({
+    el: '#app',
+    data: {
+      message: 'hello Vue2!',
+      name: 'V-U-E',
+      sex: 'girl'
+    },
+    methods: {
+      isBoyFriend: function () {
+        return this.name + '-B boy';
+      }
+    }
+  });
+  /* 属性 */
+  var app2 = new Vue({
+    el: '#app2',
+    data: {
+      message: '页面加载于' + new Date(),
+      org: 'https://cn.vuejs.org/v2/guide/index.html'
+    }
+  });
+  /* 条件 */
+  var app3 = new Vue({
+    el: '#app3',
+    data: {
+      seen: true
+    }
+  });
+  app3.seen = false;
+</script>
+</html>
