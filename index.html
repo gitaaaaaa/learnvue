@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
   <title>vue - no - ClI</title>
@@ -21,6 +21,7 @@
     .main a.content .notes {
       background-color: #eee;
     }
+
     .keng {
       color: red;
     }
@@ -39,41 +40,104 @@
 <div class="main">
   <a name="jc"></a>
   <div class="content">
-      <h1>基础</h1>
-      <div class="notes">
-        <p>{{}}</p>
-        <p>v-bind 指令</p>
-        <p>v-if 条件</p>
-        <p class="keng">💀渲染DOM 不能被a标签嵌套</p>
+    <h1>基础</h1>
+    <h2>基础-介绍</h2>
+    <div class="notes">
+      <h5>----笔记</h5>
+      <p class="keng">💀渲染DOM 不能被a标签嵌套</p>
+    </div>
+    <div class="code">
+      <div id="app">
+        <h5>---数据绑定|{{}}</h5>
+        <p>hello: {{ message }}</p>
+        <p>name: {{name}}</p>
+        <p>sex: {{sex}}</p>
+        <p>{{isBoyFriend()}}</p>
       </div>
-      <div class="code">
-        <div id="app">
-          <h1>hello: {{ message }}</h1>
-          <h2>name: {{name}}</h2>
-          <h2>sex: {{sex}}</h2>
-          <h3>{{isBoyFriend()}}</h3>
-        </div>
-        <div id="app2">
+      <div id="app2">
+        <h5>---属性|v-bind 指令</h5>
         <span v-bind:title="message">
               鼠标悬停几秒钟查看此处动态绑定的提示信息！
         </span>
-          <span title="悬停显示的吗？">
+        <span title="悬停显示的吗？">
           lll
         </span>
-          <a v-bind:href="org">跳转到vue官方网站</a>
-        </div>
-        <div id="app3">
-          <p v-if="seen">现在你看到我了</p>
-        </div>
+        <a v-bind:href="org">跳转到vue官方网站</a>
       </div>
+      <div id="app3">
+        <h5>---条件|v-if</h5>
+        <p v-if="seen">现在你看到我了</p>
+      </div>
+      <div id="app4">
+        <h5>---循环|v-for</h5>
+        <ol>
+          <li v-for="todo in todos">
+            {{ todo.text }}
+          </li>
+        </ol>
+      </div>
+      <div id="app5">
+        <h5>---处理用户输入|v-on</h5>
+        <p>{{message}}</p>
+        <button v-on:click="reverseMessage">逆转消息</button>
+      </div>
+      <div id="app6">
+        <h5>---双向绑定|v-modal</h5>
+        <p>{{message}}</p>
+        <input v-model="message">
+      </div>
+      <div id="app7">
+        <h5>---组件化应用构建|props</h5>
+        <ol>
+          <!--
+      现在我们为每个 todo-item 提供 todo 对象
+      todo 对象是变量，即其内容可以是动态的。
+      我们也需要为每个组件提供一个“key”，稍后再
+      作详细解释。
+    -->
+          <todo-item v-for="item in groceryList" v-bind:todo="item" v-bind:key="item.id"></todo-item>
+        </ol>
+      </div>
+    </div>
+    <h2>基础-Vue实例</h2>
+    <div class="notes">
+      <h5>----笔记</h5>
+      <p>每个 Vue 应用都是通过用 Vue 函数创建一个新的 Vue 实例开始的</p>
+      <p>var vm = new Vue({
+        // 选项
+        })</p>
+      <p>Object.freeze() 冻结对象</p>
+      <p class="keng">所有的 Vue 组件都是 Vue 实例</p>
+    </div>
+    <div class="code">
+      <div id="app8">
+        <h5>---数据与方法</h5>
+        <p>{{a}}</p>
+        <p>{{b}}</p>
+        <p>{{neverChange}}</p>
+        <button v-on:click="neverChange = '成功'">Change it</button>
+      </div>
+      <div id="app9">
+        <p>{{ foo }}</p>
+        <!-- 这里的 `foo` 不会更新！ -->
+        <button v-on:click="foo = 'baz'">Change it</button>
+      </div>
+      <div id="app10">
+        <p>{{ a }}</p>
+        <!-- 这里的 `foo` 不会更新！ -->
+        <button v-on:click="a = 'baz'">Change it</button>
+      </div>
+      <div id="app11">
+        <h5>---实例生命周期钩子</h5>
+        <p>{{startName}}</p>
+      </div>
+    </div>
   </div>
 
 
   <a class="content" name="">
     <div class="notes">
-      <p>{{}}</p>
-      <p>v-bind 指令</p>
-      <p>v-if 条件</p>
+
     </div>
   </a>
   <a class="content" name="">
@@ -100,6 +164,13 @@
       isBoyFriend: function () {
         return this.name + '-B boy';
       }
+    },
+    computed:{
+      // 计算属性的getter
+      reversedMessage: function () {
+        // `this` 指向 vm 实例
+        return this.message.split('').reverse().join('')
+      }
     }
   });
   /* 属性 */
@@ -114,9 +185,105 @@
   var app3 = new Vue({
     el: '#app3',
     data: {
-      seen: true
+      seen: false
     }
   });
-  app3.seen = false;
+  app3.seen = true;
+  /* 循环 */
+  var app4 = new Vue({
+    el: '#app4',
+    data: {
+      todos: [
+        {text: 'learn JavaScript'},
+        {text: 'learn Vue'},
+        {text: 'learn TB-project'}
+      ]
+    }
+  });
+  app4.todos.push({text: 'new-project'});
+  /* 处理用户输入 */
+  var app5 = new Vue({
+    el: '#app5',
+    data: {
+      message: 'hello vue.js!'
+    },
+    methods: {
+      reverseMessage: function () {
+        this.message = this.message.split('').reverse().join('')
+      }
+    }
+  });
+  /* 双向绑定*/
+  var app6 = new Vue({
+    el: '#app6',
+    data: {
+      message: 'hello gt!'
+    }
+  });
+  /* 组件化应用构建 */
+  Vue.component('todo-item', {
+    props: ['todo'],
+    template: '<li>{{todo.text}}</li>'
+  });
+  var app7 = new Vue({
+    el: '#app7',
+    data: {
+      groceryList: [
+        {id: 0, text: '蔬菜'},
+        {id: 1, text: '奶酪'},
+        {id: 2, text: '随便其它什么人吃的东西'}
+      ]
+    }
+  });
+  /* 数据与方法 */
+  // 我们的数据对象
+  var mydata = {
+    a:1,
+    b:'',
+    neverChange:'gaotong'
+  };
+  // 该对象被加入到一个 Vue 实例中
+  var vm = new Vue({
+    el: '#app8',
+    data: mydata
+  });
+  mydata.a == vm.a // =>true
+  // 设置属性也会影响到原始数据
+  vm.a = 2;
+  mydata.a; // =>2
+  // 反之
+  mydata.a = '测试';
+  vm.a; // =>3
+  vm.b = 'hi';
+  /* Object.freeze()*/
+
+  var obj = {
+    foo: 'bar'
+  };
+
+  Object.freeze(obj);
+
+  new Vue({
+    el: '#app9',
+    data: obj
+  });
+  /* $ */
+  var watchData = {
+    a: '$ watch'
+  };
+  var vm3 = new Vue({
+    el: '#app10',
+    data: watchData
+  });
+  /* 实例生命周期钩子 */
+  var vm4 = new Vue({
+    el: '#app11',
+    data: {
+      startName: 'gt'
+    },
+    created:function(){
+      'created is name' + this.startName
+    }
+  });
 </script>
 </html>

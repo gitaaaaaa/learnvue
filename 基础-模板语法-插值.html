@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>插值</title>
+  <script src="js/2.5.16/vue.js"></script>
+</head>
+<body>
+<h2>#文本</h2>
+<div id="app">
+  <p>一、"Mustache ['mʌstæʃ]"语法（双大括号）</p>
+  <p>Message: {{msg}}</p>
+  <p>二、v-once指令，一次性地插值</p>
+  <p v-once>Message：{{he}}</p>
+</div>
+<h2>#原始HTML</h2>
+<div id="app1">
+  <p>双大括号会将数据解释为 - 普通文本，而非 HTML 代码。</p>
+  <p>输出真正的 HTML，你需要使用 v-html 指令</p>
+  <p>Using mustaches: {{ rawHtml }}</p>
+  <p>Using v-html directive: <span v-html="rawHtml"></span></p>
+</div>
+<h2>#特性</h2>
+<div id="app2">
+  <p>Mustache 语法不能作用在 HTML 特性上，遇到这种情况应该使用 v-bind 指令：</p>
+  <div v-bind:id="dynamicId">v-bind 给标签属性赋值</div>
+  <button v-bind:disabled="isButtonDisabled">Button 在布尔特性的情况下，属性为true时才渲染到dom中</button>
+</div>
+<h2>#使用Javascript表达式</h2>
+<div id="app3">
+  <p>对于所有的数据绑定，Vue.js 都提供了完全的 JavaScript 表达式支持</p>
+  <p>10 + 1 = {{num + 1}}</p>
+  <p>答案正确吗？{{ok ? 'yes': 'no'}}</p>
+  <p>i love you <=翻转=> {{message.split('').reverse().join('')}}</p>
+  <div v-bind:id="'list-' + id">id = list-item</div>
+  <p style="color: red">模板表达式都被放在沙盒中，只能访问全局变量的一个白名单，如 Math 和 Date 。你不应该在模板表达式中试图访问用户定义的全局变量。</p>
+  <a v-bind:href="url"></a>
+</div>
+</body>
+<script>
+var app = new Vue({
+  el: '#app',
+  data: {
+    msg: 'My name is G.',
+    he: 'He name is L'
+  }
+});
+app.he = '2';
+var app1 = new Vue({
+  el: '#app1',
+  data: {
+    rawHtml: '<span style="color:red;">This should be red</span>'
+  }
+});
+var app2 = new Vue({
+  el: '#app2',
+  data: {
+    dynamicId: 'dynamicId',
+    isButtonDisabled: true
+  }
+});
+var app3 = new Vue({
+  el: '#app3',
+  data: {
+    num: 10,
+    ok: false,
+    message: 'i love you!',
+    id:'item',
+    url: 'http'
+  }
+});
+</script>
+</html>
