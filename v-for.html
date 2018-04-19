@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>class + style</title>
+  <script src="js/2.5.16/vue.js"></script>
+</head>
+<body>
+<div id="app">
+  <ul>
+    <li v-for="(item,index) in items" v-if="item.isComplete" :ke="item.id">
+      {{ parentMessage }} - {{ index }} - {{ item.message }}
+    </li>
+  </ul>
+  <ul>
+    <li v-for="(value, key, index) in object">
+      -{{index}} --{{key}} : {{value}}
+    </li>
+  </ul>
+</div>
+<div id="arrayChange">
+  <ul>
+    <li v-for="(item,index) in items" :ke="item.id">
+      {{ parentMessage }} - {{ index }} - {{ item.message }}
+    </li>
+  </ul>
+  <ul>
+    <li v-for="i in evenNumbers">
+      {{i}}
+    </li>
+  </ul>
+  <ul>
+    <li v-for="(value, key, index) in object">
+      -{{index}} --{{key}} : {{value}}
+    </li>
+  </ul>
+</div>
+<h2>v-for 的优先级比 v-if 更高</h2>
+</body>
+<script>
+  /**数组更新检测#变异方法
+  * push()
+  * pop()
+  * shift()
+  * unshift()
+  * splice()
+  * sort()
+  * reverse()
+  */
+
+  var app = new Vue({
+    el: '#app',
+    data: {
+      parentMessage: 'Parent',
+      items: [
+        {id: 1, message: 'Foo', isComplete: true},
+        {id: 2, message: 'Bar', isComplete: true},
+        {id: 3, message: 'Bar1', isComplete: true},
+        {id: 4, message: 'Bar2', isComplete: true},
+        {id: 5, message: 'apple', isComplete: true}
+      ],
+      object: {
+        firstName: 'John',
+        lastName: 'Doe',
+        age: 30
+      }
+    }
+  });
+
+  var arrayVm = new Vue({
+    el: '#arrayChange',
+    data: {
+      parentMessage: 'Parent',
+      items: [
+        {id: 1, message: 'Foo', isComplete: true},
+        {id: 2, message: 'Bar', isComplete: true},
+        {id: 3, message: 'Bar1', isComplete: true},
+        {id: 4, message: 'Bar2', isComplete: true},
+        {id: 5, message: 'apple', isComplete: true}
+      ],
+      object: {
+        firstName: 'John',
+        lastName: 'Doe',
+        age: 30
+      },
+      lists: [1, 20, 60, 5, 4, 2]
+    },
+    computed: {
+      evenNumbers: function () {
+        return this.lists.filter(function (number) {
+          return number % 2 === 0
+        })
+      }
+    }
+  });
+  Vue.set(arrayVm.object, 'sex', 'girl');
+  //arrayVm.$set(arrayVm.object, 'sex', 'girl');
+  /*arrayVm.items = arrayVm.items.filter(function (item) {
+    return item.message.match(/a/)
+  })*/
+</script>
+</html>

@@ -50,9 +50,11 @@
       <div id="app">
         <h5>---数据绑定|{{}}</h5>
         <p>hello: {{ message }}</p>
+        <input type="text" v-model="message">
         <p>name: {{name}}</p>
         <p>sex: {{sex}}</p>
         <p>{{isBoyFriend()}}</p>
+        <p>reverseMessageL:{{reversedMessage}}</p>
       </div>
       <div id="app2">
         <h5>---属性|v-bind 指令</h5>
@@ -173,6 +175,7 @@
       }
     }
   });
+  console.log(app.reversedMessage);
   /* 属性 */
   var app2 = new Vue({
     el: '#app2',

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>class + style</title>
+  <script src="js/2.5.16/vue.js"></script>
+  <style>
+    .active {
+      color: greenyellow;
+    }
+
+    .text-danger {
+      color: orangered;
+    }
+  </style>
+</head>
+<body>
+<div id="class-example">
+  <div v-bind:class="{ active: isActive }">active is true</div>
+  <div class="static"
+       v-bind:class="{ active: isActive, 'text-danger': hasError }">
+    danger is false
+  </div>
+  <div v-bind:class="classObject">classObject</div>
+  <div v-bind:class="classObjectGeeter">classObjectGeeter</div>
+  <div v-bind:class="[activeClass, errorClass]">数组</div>
+  <p>如果你也想根据条件切换列表中的 class，可以用三元表达式：</p>
+  <div v-bind:class="[{ active: isActive }, errorClass]"></div>
+</div>
+<div id="style-example">
+  <div v-bind:style="{ color: activeColor, fontSize: fontSize + 'px' }">绑定内联样式</div>
+  <div v-bind:style="styleObject">直接绑定到一个样式对象通常更好，这会让模板更清晰：</div>
+  <h1 v-if="ok">Yes</h1>
+  <h1 v-else>No</h1>
+  <h2>were</h2>
+  <template v-if="ok">
+    <h1>Title</h1>
+    <p>Paragraph 1</p>
+    <p>Paragraph 2</p>
+  </template>
+</div>
+<div id="no-key-example">
+  <template v-if="loginType === 'username'">
+    <label>Username</label>
+    <input placeholder="Enter your username" key="username-input">
+  </template>
+  <template v-else>
+    <label>Email</label>
+    <input placeholder="Enter your email address" key="email-input">
+  </template>
+  <button v-on:click="toggleLoginType">按钮</button>
+  <h1 v-show="ok">Hello!</h1>
+</div>
+</body>
+<script>
+
+  var keyVm = new Vue({
+    el: '#no-key-example',
+    data: {
+      loginType: 'username'
+    },
+    methods: {
+      toggleLoginType: function () {
+        return this.loginType = this.loginType === 'username' ? 'email' : 'username'
+      }
+    }
+  });
+  var classExampleVM = new Vue({
+    el: '#class-example',
+    data: {
+      isActive: true,
+      hasError: false,
+      classObject: {
+        active: true,
+        'text-danger': true
+      },
+      error: null,
+      activeClass: 'active',
+      errorClass: 'text-danger'
+    },
+    computed: {
+      classObjectGeeter: function () {
+        return {
+          active: this.isActive && !this.error,
+          'text-danger': this.error && this.error.type === 'fatal'
+        }
+      }
+    }
+  });
+  var styleExampleVM = new Vue({
+    el: '#style-example',
+    data: {
+      ok: true,
+      activeColor: 'red',
+      fontSize: 30,
+      styleObject: {
+        color: 'hotpink',
+        fontSize: '13px'
+      }
+    }
+  });
+</script>
+</html>
